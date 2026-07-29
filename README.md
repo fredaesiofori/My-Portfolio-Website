@@ -2,6 +2,30 @@
 
 Lightweight React + TypeScript portfolio with an admin console and optional AI image/chat endpoints.
 
+<!-- Badges: tech stack & status -->
+[![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000000&style=flat-square)](https://reactjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white&style=flat-square)](https://vitejs.dev)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=000000&style=flat-square)](https://firebase.google.com)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white&style=flat-square)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white&style=flat-square)](https://expressjs.com)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-FF5A5F?logo=cloudinary&logoColor=white&style=flat-square)](https://cloudinary.com)
+[![Gemini API](https://img.shields.io/badge/Gemini-0ea5a4?style=flat-square)](#)
+
+A confident, modern portfolio scaffold with a small server and admin UI — built for fast iteration and optional AI-powered features.
+
+<!-- Table of contents for quick scanning -->
+- 🚀 About
+- 🔧 Repository layout
+- ⚡ Quick start
+- 🧾 Available scripts
+- 🧪 Testing endpoints locally
+- ℹ️ Behavior notes
+- 🔐 Admin panel
+- 🧰 CI
+- ⚠️ License & credits
+
+
 Repository layout
 
 - `server.ts` — Express server with Vite middleware and AI endpoints (`/api/gemini/chat`, `/api/gemini/generate-image`).
@@ -92,5 +116,3 @@ If you want, I can:
 - Push a branch to a remote (provide the remote URL or add it locally and I will push).
 - Add more developer docs or a CONTRIBUTING guide.
 
----
-Updated to match repository structure.
