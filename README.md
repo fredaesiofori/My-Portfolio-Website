@@ -58,6 +58,11 @@ npm install
 - Firebase fields used by `src/lib/firebase.ts` (or keep `firebase-applet-config.json` in place)
 - `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_UPLOAD_PRESET` (optional, used by admin file uploader)
 
+Environment notes (recommended)
+
+- Prefer local environment variables for secrets. For frontend-exposed Firebase values use `VITE_FIREBASE_*` keys in a local `.env` file (Vite requires the `VITE_` prefix for client-side variables).
+- Alternatively you may keep a `firebase-applet-config.json` file for quick local setup — a template is provided as `firebase-applet-config.example.json`. To avoid accidentally committing real credentials, the repository is configured to ignore `firebase-applet-config.json`.
+
 3. Start dev server:
 
 ```bash
