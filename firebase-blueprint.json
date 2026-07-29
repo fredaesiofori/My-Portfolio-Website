@@ -1,0 +1,81 @@
+{
+  "entities": {
+    "projects": {
+      "title": "Projects",
+      "description": "Portfolio projects showcased on the website",
+      "fields": {
+        "title": { "type": "string", "description": "Project title" },
+        "description": { "type": "string", "description": "Project description" },
+        "category": { "type": "string", "description": "Category for filtering (Cloud, Full-Stack, AI, DevOps)" },
+        "techStack": { "type": "array", "items": { "type": "string" }, "description": "Technologies used" },
+        "liveUrl": { "type": "string", "description": "URL to live demo" },
+        "githubUrl": { "type": "string", "description": "GitHub repository URL" },
+        "imageUrl": { "type": "string", "description": "Project screenshot or cover image" },
+        "featured": { "type": "boolean", "description": "Whether to highlight this project" },
+        "order": { "type": "number", "description": "Display order" },
+        "createdAt": { "type": "string", "description": "ISO date string or timestamp" }
+      }
+    },
+    "certifications": {
+      "title": "Certifications",
+      "description": "Professional certifications and educational qualifications",
+      "fields": {
+        "title": { "type": "string", "description": "Certification or degree title" },
+        "issuer": { "type": "string", "description": "Issuing organization or institution" },
+        "issueDate": { "type": "string", "description": "Date issued" },
+        "credentialUrl": { "type": "string", "description": "Link to verify credential" },
+        "imageUrl": { "type": "string", "description": "Certificate image or badge URL" },
+        "order": { "type": "number", "description": "Display order" },
+        "createdAt": { "type": "string", "description": "ISO date string or timestamp" }
+      }
+    },
+    "messages": {
+      "title": "Contact Messages",
+      "description": "Inquiries received via the contact form",
+      "fields": {
+        "name": { "type": "string", "description": "Sender name" },
+        "email": { "type": "string", "description": "Sender email" },
+        "subject": { "type": "string", "description": "Message subject" },
+        "message": { "type": "string", "description": "Message body" },
+        "createdAt": { "type": "string", "description": "Timestamp" },
+        "read": { "type": "boolean", "description": "Read status" }
+      }
+    },
+    "posts": {
+      "title": "Blog Posts",
+      "description": "Engineering articles and technical insights",
+      "fields": {
+        "title": { "type": "string", "description": "Article title" },
+        "summary": { "type": "string", "description": "Short article summary" },
+        "content": { "type": "string", "description": "Full article markdown content" },
+        "date": { "type": "string", "description": "Publication date string" },
+        "author": { "type": "string", "description": "Author name" },
+        "authorRole": { "type": "string", "description": "Author title or role" },
+        "readTime": { "type": "string", "description": "Estimated reading time" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "Article tags" },
+        "imageUrl": { "type": "string", "description": "Cover image URL" },
+        "featured": { "type": "boolean", "description": "Featured article flag" },
+        "order": { "type": "number", "description": "Display order" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "subscribers": {
+      "title": "Newsletter Subscribers",
+      "description": "Visitor email subscriptions for site updates and technical newsletters",
+      "fields": {
+        "email": { "type": "string", "description": "Subscriber email address" },
+        "createdAt": { "type": "string", "description": "Timestamp when subscribed" },
+        "status": { "type": "string", "description": "Subscription status (active, unsubscribed)" }
+      }
+    },
+    "mail": {
+      "title": "Automated Mail Queue (Firebase Extension)",
+      "description": "Outbound email queue processed by Firebase Trigger Email extension",
+      "fields": {
+        "to": { "type": "array", "items": { "type": "string" }, "description": "Recipient email address(es)" },
+        "message": { "type": "object", "description": "Email subject, text and html content" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      }
+    }
+  }
+}

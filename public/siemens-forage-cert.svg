@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="100%" height="100%">
+  <!-- White Canvas -->
+  <rect x="0" y="0" width="600" height="420" fill="#ffffff" />
+  
+  <!-- Siemens Logo Top Left -->
+  <text x="35" y="65" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="38" fill="#00897B" letter-spacing="1">SIEMENS</text>
+  <line x1="35" y1="78" x2="380" y2="78" stroke="#e2e8f0" stroke-width="1.5" />
+
+  <!-- Forage Dark Banner Top Right -->
+  <path d="M 430,0 L 600,0 L 600,120 L 515,135 L 430,120 Z" fill="#0A0E2A" />
+  <g transform="translate(450, 25)">
+    <!-- Forage Icon & Wordmark -->
+    <path d="M 12 12 L 22 2 L 32 12 L 22 22 Z" fill="none" stroke="#ffffff" stroke-width="3" />
+    <text x="38" y="20" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="#ffffff">Forage</text>
+    <text x="85" y="48" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="9" fill="#cbd5e1" text-anchor="middle">Inspiring and empowering</text>
+    <text x="85" y="60" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="9" fill="#cbd5e1" text-anchor="middle">future professionals</text>
+  </g>
+
+  <!-- Main Content -->
+  <text x="35" y="175" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="30" fill="#1e293b">Freda Ofori</text>
+  <text x="35" y="210" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="22" fill="#334155">Project Manager Job Simulation</text>
+  <text x="35" y="240" font-family="system-ui, -apple-system, sans-serif" font-size="15" fill="#475569">Certificate of Completion</text>
+  <text x="35" y="260" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b">June 19th, 2026</text>
+
+  <line x1="35" y1="295" x2="565" y2="295" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Tasks & Signature -->
+  <text x="35" y="318" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Completed practical tasks in:</text>
+  <text x="35" y="334" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#334155">• Developing key performance indicators (KPIs)</text>
+  <text x="35" y="348" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#334155">• Managing project dashboards</text>
+
+  <!-- Signature -->
+  <text x="510" y="340" font-family="Georgia, serif" font-style="italic" font-size="18" fill="#1e293b" text-anchor="middle">Tom Brunskill</text>
+  <text x="510" y="355" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Co-Founder of Forage</text>
+
+  <!-- Verification Codes -->
+  <text x="35" y="395" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">Enrolment: brDYbonaDpEZurRkq | User Verification: 6a34fe9184b9af134dcc9dc2 | Issued by Forage</text>
+</svg>

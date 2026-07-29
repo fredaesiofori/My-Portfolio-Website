@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthorizedAdmin() {
+      return request.auth != null && request.auth.token.email == 'fredaesiofori905@gmail.com';
+    }
+
+    // Projects: readable by anyone, writable only by authorized admin
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAuthorizedAdmin();
+    }
+
+    // Certifications: readable by anyone, writable only by authorized admin
+    match /certifications/{certId} {
+      allow read: if true;
+      allow write: if isAuthorizedAdmin();
+    }
+
+    // Blog posts: readable by anyone, writable only by authorized admin
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if isAuthorizedAdmin();
+    }
+
+    // Messages: public create for contact form, admin read/update/delete
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAuthorizedAdmin();
+    }
+
+    // Subscribers: public create, admin read/update/delete
+    match /subscribers/{subscriberId} {
+      allow create: if true;
+      allow read, update, delete: if isAuthorizedAdmin();
+    }
+
+    // Mail queue: public create for emails, admin read/update/delete
+    match /mail/{mailId} {
+      allow create: if true;
+      allow read, update, delete: if isAuthorizedAdmin();
+    }
+  }
+}
+

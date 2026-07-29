@@ -1,0 +1,28 @@
+name: Smoke Test
+
+on:
+  push: {}
+  pull_request: {}
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm ci
+      - name: Start dev server in background and run tests
+        run: |
+          npm run dev &
+          DEV_PID=$!
+          # Wait a few seconds for server to start
+          sleep 6
+          node scripts/test-endpoints.js
+          kill $DEV_PID || true
+        env:
+          # Ensure GEMINI_API_KEY is empty in CI (script expects fallback behavior)
+          GEMINI_API_KEY: ""
