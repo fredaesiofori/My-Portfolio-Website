@@ -115,6 +115,23 @@ License & credits
 
 This repository contains assets and code authored by the project owner. Replace placeholder keys and test data before publishing.
 
+**Deployment & Env**
+
+- **Local env:** Copy `.env.example` to `.env` and fill the `VITE_FIREBASE_*` keys for local development. Example snippet:
+
+```env
+VITE_FIREBASE_API_KEY=YOUR_API_KEY
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=XXXXXXXXXXXX
+VITE_FIREBASE_APP_ID=1:XXXXXXXXXXXX:web:XXXXXXXXXXXX
+```
+
+- **CI / GitHub Actions:** A workflow `/.github/workflows/deploy.yml` builds and deploys to Firebase when you push to `master`. Add a repository secret named `FIREBASE_SERVICE_ACCOUNT` with a Firebase service account JSON (see Firebase docs).
+
+- **Hosting folder:** Firebase is configured to serve the production `dist/` folder. Run `npm run build` locally before deploying if you deploy manually.
+
 If you want, I can:
 
 - Initialize the git repo and commit staged changes (you can commit files one-by-one as you requested).

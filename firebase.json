@@ -2,7 +2,7 @@
   "hosting": [
     {
       "site": "alertgh-11142-37f00",
-      "public": "public",
+      "public": "dist",
       "ignore": [
         "firebase.json",
         "**/.*",
