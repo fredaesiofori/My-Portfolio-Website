@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Deploy to Firebase Hosting (Production)
-        run: npx firebase-tools@latest deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}" --project alertgh-11142
+        run: npx firebase-tools@13.0.0 deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}" --project alertgh-11142
