@@ -14,6 +14,8 @@ Lightweight React + TypeScript portfolio with an admin console and optional AI i
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-FF5A5F?logo=cloudinary&logoColor=white&style=flat-square)](https://cloudinary.com)
 [![Gemini API](https://img.shields.io/badge/Gemini-0ea5a4?style=flat-square)](#)
 
+[![Build and Deploy](https://github.com/fredaesiofori/My-Portfolio-Website/actions/workflows/deploy.yml/badge.svg)](https://github.com/fredaesiofori/My-Portfolio-Website/actions/workflows/deploy.yml)
+
 A confident, modern portfolio scaffold with a small server and admin UI — built for fast iteration and optional AI-powered features.
 
 <!-- Table of contents for quick scanning -->
