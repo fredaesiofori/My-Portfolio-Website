@@ -1,4 +1,6 @@
 # Freda Creations — Personal Portfolio Website
+# live: https://portfoliofreda.me
+
 
 Lightweight React + TypeScript portfolio with an admin console and optional AI image/chat endpoints.
 
