@@ -33,10 +33,10 @@ export default function App() {
   });
   const [resumeOpen, setResumeOpen] = useState<boolean>(false);
   const [adminModalOpen, setAdminModalOpen] = useState<boolean>(false);
-  const [adminTab, setAdminTab] = useState<'projects' | 'certifications' | 'blog' | 'messages' | 'ai-images' | 'seed'>('projects');
+  const [adminTab, setAdminTab] = useState<'projects' | 'certifications' | 'blog' | 'messages' | 'ai-images' | 'uploader' | 'seed'>('projects');
   const [chatOpen, setChatOpen] = useState<boolean>(false);
 
-  const handleOpenAdmin = (tab: 'projects' | 'certifications' | 'blog' | 'messages' | 'ai-images' | 'seed' = 'projects') => {
+  const handleOpenAdmin = (tab: 'projects' | 'certifications' | 'blog' | 'messages' | 'ai-images' | 'uploader' | 'seed' = 'projects') => {
     setAdminTab(tab);
     setAdminModalOpen(true);
   };
@@ -394,7 +394,7 @@ export default function App() {
             posts={posts}
             initialTab={adminTab}
             onClose={() => setAdminModalOpen(false)}
-            onRefresh={() => {}}
+            onRefresh={() => { /* real-time onSnapshot handles refresh automatically */ }}
           />
         ) : (
           <AdminLogin

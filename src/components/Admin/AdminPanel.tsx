@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db, auth } from '../../lib/firebase';
-import { collection, addDoc, doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { Project, Certification, ContactMessage, BlogPost } from '../../types';
 import { INITIAL_PROJECTS, INITIAL_CERTIFICATIONS, INITIAL_POSTS } from '../../lib/seedData';
 import { FileUploader } from './FileUploader';
@@ -290,16 +290,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     setSaving(true);
     try {
-      if (editingProject && editingProject.id) {
-        // Use setDoc with { merge: true } to upsert (creates document if missing, e.g. seed data)
-        await setDoc(doc(db, 'projects', editingProject.id), {
-          ...projectForm,
-          createdAt: editingProject.createdAt || new Date().toISOString()
-        }, { merge: true });
-        notify('success', 'Project saved successfully!');
+      // Strip client-side id field before writing to Firestore
+      const { id: _id, ...formData } = projectForm as any;
+
+      if (editingProject && editingProject.id && !editingProject.id.startsWith('seed-')) {
+        await updateDoc(doc(db, 'projects', editingProject.id), {
+          ...formData,
+          updatedAt: new Date().toISOString()
+        });
+        notify('success', 'Project updated successfully!');
+      } else if (editingProject && editingProject.id && editingProject.id.startsWith('seed-')) {
+        // Seed-data items have fake IDs — create a real Firestore document instead
+        await addDoc(collection(db, 'projects'), {
+          ...formData,
+          createdAt: new Date().toISOString()
+        });
+        notify('success', 'Project saved to Firestore!');
       } else {
         await addDoc(collection(db, 'projects'), {
-          ...projectForm,
+          ...formData,
           createdAt: new Date().toISOString()
         });
         notify('success', 'New project saved to Firestore!');
@@ -320,7 +329,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       onRefresh();
     } catch (err: any) {
       console.error('Save project error:', err);
-      notify('error', 'Error saving project: ' + (err.message || 'Firestore save failed'));
+      notify('error', 'Error saving project: ' + (err.message || 'Firestore write failed. Check Firestore rules and authentication.'));
     } finally {
       setSaving(false);
     }
@@ -348,15 +357,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     setSaving(true);
     try {
-      if (editingCert && editingCert.id) {
-        await setDoc(doc(db, 'certifications', editingCert.id), {
-          ...certForm,
-          createdAt: editingCert.createdAt || new Date().toISOString()
-        }, { merge: true });
-        notify('success', 'Certification saved successfully!');
+      const { id: _id, ...certData } = certForm as any;
+
+      if (editingCert && editingCert.id && !editingCert.id.startsWith('seed-')) {
+        await updateDoc(doc(db, 'certifications', editingCert.id), {
+          ...certData,
+          updatedAt: new Date().toISOString()
+        });
+        notify('success', 'Certification updated successfully!');
       } else {
         await addDoc(collection(db, 'certifications'), {
-          ...certForm,
+          ...certData,
           createdAt: new Date().toISOString()
         });
         notify('success', 'Certification saved!');
@@ -374,7 +385,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       onRefresh();
     } catch (err: any) {
       console.error('Save certification error:', err);
-      notify('error', 'Error saving certificate: ' + (err.message || 'Firestore save failed'));
+      notify('error', 'Error saving certificate: ' + (err.message || 'Firestore write failed. Check Firestore rules and authentication.'));
     } finally {
       setSaving(false);
     }
@@ -402,15 +413,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
     setSaving(true);
     try {
-      if (editingPost && editingPost.id) {
-        await setDoc(doc(db, 'posts', editingPost.id), {
-          ...postForm,
-          createdAt: editingPost.createdAt || new Date().toISOString()
-        }, { merge: true });
-        notify('success', 'Blog article saved successfully!');
+      const { id: _id, ...postData } = postForm as any;
+
+      if (editingPost && editingPost.id && !editingPost.id.startsWith('seed-')) {
+        await updateDoc(doc(db, 'posts', editingPost.id), {
+          ...postData,
+          updatedAt: new Date().toISOString()
+        });
+        notify('success', 'Blog article updated successfully!');
       } else {
         await addDoc(collection(db, 'posts'), {
-          ...postForm,
+          ...postData,
           createdAt: new Date().toISOString()
         });
         notify('success', 'New blog article published!');
@@ -433,7 +446,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       onRefresh();
     } catch (err: any) {
       console.error('Save post error:', err);
-      notify('error', 'Error saving article: ' + (err.message || 'Firestore save failed'));
+      notify('error', 'Error saving article: ' + (err.message || 'Firestore write failed. Check Firestore rules and authentication.'));
     } finally {
       setSaving(false);
     }
@@ -728,8 +741,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <button
                     type="submit"
                     disabled={saving || uploadingImage}
-                    className="px-5 py-2.5 bg-[#E2725B] text-black font-bold text-xs uppercase tracking-wider rounded"
+                    className="px-5 py-2.5 bg-[#E2725B] text-black font-bold text-xs uppercase tracking-wider rounded flex items-center gap-2 disabled:opacity-60"
                   >
+                    {saving && <Loader2 size={13} className="animate-spin" />}
                     {editingProject ? 'Update Project' : 'Save Project'}
                   </button>
                 </div>
