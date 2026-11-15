@@ -1,11 +1,4 @@
 {
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": ["node_modules", ".git"]
-    }
-  ],
   "hosting": [
     {
       "site": "alertgh-11142-37f00",
@@ -16,10 +9,6 @@
         "**/node_modules/**"
       ],
       "rewrites": [
-        {
-          "source": "/api/**",
-          "function": "api"
-        },
         {
           "source": "**",
           "destination": "/index.html"
@@ -32,14 +21,8 @@
     "indexes": "firestore.indexes.json"
   },
   "emulators": {
-    "hosting": {
-      "port": 5000
-    },
-    "firestore": {
-      "port": 8080
-    },
-    "ui": {
-      "enabled": true
-    }
+    "hosting": { "port": 5000 },
+    "firestore": { "port": 8080 },
+    "ui": { "enabled": true }
   }
 }

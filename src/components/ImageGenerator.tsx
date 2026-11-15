@@ -41,7 +41,8 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ isOpen, onClose 
     setError(null);
 
     try {
-      const res = await fetch('/api/gemini/generate-image', {
+      const base = import.meta.env.VITE_API_BASE_URL ?? '';
+      const res = await fetch(`${base}/api/gemini/generate-image`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

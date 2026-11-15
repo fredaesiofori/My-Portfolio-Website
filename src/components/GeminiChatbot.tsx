@@ -81,7 +81,8 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({ isOpen, onClose, o
         text: m.text
       }));
 
-      const res = await fetch('/api/gemini/chat', {
+      const base = import.meta.env.VITE_API_BASE_URL ?? '';
+      const res = await fetch(`${base}/api/gemini/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
