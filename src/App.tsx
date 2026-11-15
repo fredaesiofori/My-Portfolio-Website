@@ -73,51 +73,32 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Real-time Firestore sync for Projects (fallback to initial seed if empty)
+  // Real-time Firestore sync for Projects
   useEffect(() => {
-    try {
-      const q = query(collection(db, 'projects'));
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          if (!snapshot.empty) {
-            const fetched: Project[] = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...(doc.data() as Omit<Project, 'id'>)
-            }));
-            fetched.sort((a, b) => (a.order || 99) - (b.order || 99));
-            setProjects(fetched);
-          } else {
-            setProjects(
-              INITIAL_PROJECTS.map((p, idx) => ({
-                id: `seed-${idx}`,
-                ...p
-              }))
-            );
-          }
-          setLoadingProjects(false);
-        },
-        (error) => {
-          console.warn('Firestore projects listener fallback notice:', error);
-          setProjects(
-            INITIAL_PROJECTS.map((p, idx) => ({
-              id: `seed-${idx}`,
-              ...p
-            }))
-          );
-          setLoadingProjects(false);
+    const q = query(collection(db, 'projects'), orderBy('order', 'asc'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const fetched: Project[] = snapshot.docs.map((d) => ({
+            id: d.id,
+            ...(d.data() as Omit<Project, 'id'>)
+          }));
+          setProjects(fetched);
+        } else {
+          // Firestore collection is genuinely empty — show seed data as placeholder
+          setProjects(INITIAL_PROJECTS.map((p, idx) => ({ id: `seed-${idx}`, ...p })));
         }
-      );
-      return () => unsubscribe();
-    } catch (e) {
-      setProjects(
-        INITIAL_PROJECTS.map((p, idx) => ({
-          id: `seed-${idx}`,
-          ...p
-        }))
-      );
-      setLoadingProjects(false);
-    }
+        setLoadingProjects(false);
+      },
+      (error) => {
+        // Index not yet built or rules issue — fall back to seed data and log clearly
+        console.error('Firestore projects read error:', error.code, error.message);
+        setProjects(INITIAL_PROJECTS.map((p, idx) => ({ id: `seed-${idx}`, ...p })));
+        setLoadingProjects(false);
+      }
+    );
+    return () => unsubscribe();
   }, []);
 
   // Real-time Firestore sync for Certifications (fallback to initial seed if empty)
@@ -232,51 +213,30 @@ export default function App() {
     }
   }, []);
 
-  // Real-time Firestore sync for Blog Posts (fallback to initial seed if empty)
+  // Real-time Firestore sync for Blog Posts
   useEffect(() => {
-    try {
-      const q = query(collection(db, 'posts'));
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          if (!snapshot.empty) {
-            const fetched: BlogPost[] = snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...(doc.data() as Omit<BlogPost, 'id'>)
-            }));
-            fetched.sort((a, b) => (a.order || 99) - (b.order || 99));
-            setPosts(fetched);
-          } else {
-            setPosts(
-              INITIAL_POSTS.map((post, idx) => ({
-                id: `seed-post-${idx}`,
-                ...post
-              }))
-            );
-          }
-          setLoadingPosts(false);
-        },
-        (error) => {
-          console.warn('Firestore posts listener fallback notice:', error);
-          setPosts(
-            INITIAL_POSTS.map((post, idx) => ({
-              id: `seed-post-${idx}`,
-              ...post
-            }))
-          );
-          setLoadingPosts(false);
+    const q = query(collection(db, 'posts'), orderBy('order', 'asc'));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const fetched: BlogPost[] = snapshot.docs.map((d) => ({
+            id: d.id,
+            ...(d.data() as Omit<BlogPost, 'id'>)
+          }));
+          setPosts(fetched);
+        } else {
+          setPosts(INITIAL_POSTS.map((post, idx) => ({ id: `seed-post-${idx}`, ...post })));
         }
-      );
-      return () => unsubscribe();
-    } catch (e) {
-      setPosts(
-        INITIAL_POSTS.map((post, idx) => ({
-          id: `seed-post-${idx}`,
-          ...post
-        }))
-      );
-      setLoadingPosts(false);
-    }
+        setLoadingPosts(false);
+      },
+      (error) => {
+        console.error('Firestore posts read error:', error.code, error.message);
+        setPosts(INITIAL_POSTS.map((post, idx) => ({ id: `seed-post-${idx}`, ...post })));
+        setLoadingPosts(false);
+      }
+    );
+    return () => unsubscribe();
   }, []);
 
   // Real-time Firestore sync for Messages (when admin logged in)

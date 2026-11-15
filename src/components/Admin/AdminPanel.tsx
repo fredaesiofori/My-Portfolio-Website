@@ -303,12 +303,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         // Seed-data items have fake IDs — create a real Firestore document instead
         await addDoc(collection(db, 'projects'), {
           ...formData,
+          order: formData.order ?? projects.filter(p => !p.id?.startsWith('seed-')).length + 1,
           createdAt: new Date().toISOString()
         });
         notify('success', 'Project saved to Firestore!');
       } else {
         await addDoc(collection(db, 'projects'), {
           ...formData,
+          order: formData.order ?? projects.filter(p => !p.id?.startsWith('seed-')).length + 1,
           createdAt: new Date().toISOString()
         });
         notify('success', 'New project saved to Firestore!');
@@ -324,7 +326,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         githubUrl: '',
         imageUrl: '',
         featured: false,
-        order: projects.length + 1
+        order: projects.filter(p => !p.id?.startsWith('seed-')).length + 1
       });
       onRefresh();
     } catch (err: any) {
