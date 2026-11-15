@@ -121,6 +121,9 @@ jobs:
           path: dist/
           retention-days: 30
 
+      - name: Deploy Firestore Rules
+        run: npx firebase-tools@13.0.0 deploy --only firestore:rules --token "${{ secrets.FIREBASE_TOKEN }}" --project alertgh-11142
+
       - name: Deploy to Firebase Hosting (Production)
         id: deploy
         run: npx firebase-tools@13.0.0 deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}" --project alertgh-11142
