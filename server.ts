@@ -52,7 +52,7 @@ async function startServer() {
       }
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-2.0-flash",
         contents,
         config: {
           systemInstruction: systemInstruction || defaultSystemInstruction,
@@ -106,19 +106,23 @@ async function startServer() {
       return res.status(400).json({ error: "Prompt string is required." });
     }
 
-    try {
-      const ai = getGeminiAI();
+    const ai = getGeminiAI();
+    if (!ai) {
+      // No API key — return the stylised SVG fallback
+      return res.json({
+        imageUrl: generateFallbackSVG(prompt),
+        mimeType: "image/svg+xml",
+        prompt, size, aspectRatio,
+        note: "SVG fallback: GEMINI_API_KEY not configured."
+      });
+    }
 
+    try {
       const response = await ai.models.generateContent({
-        model: "gemini-3.1-flash-lite-image",
-        contents: {
-          parts: [{ text: prompt }],
-        },
+        model: "gemini-2.0-flash-preview-image-generation",
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
         config: {
-          imageConfig: {
-            aspectRatio: aspectRatio as any,
-            imageSize: size as any,
-          },
+          responseModalities: ["TEXT", "IMAGE"],
         },
       });
 
@@ -128,9 +132,9 @@ async function startServer() {
       const candidate = response.candidates?.[0];
       if (candidate?.content?.parts) {
         for (const part of candidate.content.parts) {
-          if (part.inlineData?.data) {
-            mimeType = part.inlineData.mimeType || "image/png";
-            imageUrl = `data:${mimeType};base64,${part.inlineData.data}`;
+          if ((part as any).inlineData?.data) {
+            mimeType = (part as any).inlineData.mimeType || "image/png";
+            imageUrl = `data:${mimeType};base64,${(part as any).inlineData.data}`;
             break;
           }
         }
@@ -138,20 +142,17 @@ async function startServer() {
 
       if (!imageUrl) {
         imageUrl = generateFallbackSVG(prompt);
+        mimeType = "image/svg+xml";
       }
 
       return res.json({ imageUrl, mimeType, prompt, size, aspectRatio });
     } catch (err: any) {
-      console.warn("Gemini Image Gen Notice (using free tier fallback):", err?.message);
-      // Fallback gracefully so free tier API keys work seamlessly
-      const fallbackUrl = generateFallbackSVG(prompt);
+      console.warn("Gemini Image Gen error (SVG fallback):", err?.message);
       return res.json({
-        imageUrl: fallbackUrl,
+        imageUrl: generateFallbackSVG(prompt),
         mimeType: "image/svg+xml",
-        prompt,
-        size,
-        aspectRatio,
-        note: "Created via Afrofuturist SVG Studio engine (free tier active)."
+        prompt, size, aspectRatio,
+        note: "SVG fallback: " + (err?.message || "generation failed")
       });
     }
   });

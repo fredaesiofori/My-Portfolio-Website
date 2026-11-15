@@ -9,3 +9,5 @@ coverage/
 firebase-applet-config.json
 # Firebase local runtime cache
 .firebase/
+# Function dependencies (installed during CI deploy)
+functions/node_modules/
