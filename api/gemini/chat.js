@@ -25,16 +25,32 @@ Skills: AWS, Terraform, Docker, Kubernetes, CI/CD, React 19, TypeScript, Firebas
 Answer politely, concisely, and accurately. If asked something not covered above, say you don't have that information rather than guessing.`;
 
 export default async function handler(req, res) {
-  // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const ALLOWED_ORIGINS = [
+    'https://portfoliofreda.me',
+    'https://alertgh-11142.web.app',
+    'https://alertgh-11142-37f00.web.app'
+  ];
+  const origin = req.headers.origin || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
 
   const { messages, systemInstruction } = req.body ?? {};
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: 'messages array is required.' });
+  }
+
+  // Basic abuse protection: cap message history and text length
+  if (messages.length > 40) {
+    return res.status(400).json({ error: 'Message history too long (max 40 messages).' });
+  }
+  const lastMsg = messages[messages.length - 1];
+  if (typeof lastMsg?.text === 'string' && lastMsg.text.length > 2000) {
+    return res.status(400).json({ error: 'Message too long (max 2000 characters).' });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
